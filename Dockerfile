@@ -20,4 +20,4 @@ RUN apt-get clean
 RUN [ "rm", "-rf", "/tmp/*", "/var/tmp/*" ]
 
 
-RUN cpanm DBI Moose
+RUN cpanm DBI Moose JSON
