@@ -1,4 +1,4 @@
-package Utils;
+package Utils::Util;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ use warnings;
 use JSON;
 
 sub read_conf{
-    open my $fh, '<', 'config.json';
+    open my $fh, '<', '/perl_training/config.json';
 
     my $file_content = '';
 

@@ -3,7 +3,7 @@ package Repo::DriverRepo;
 use Moose;
 
 use DBI;
-use Utils;
+use Utils::Util;
 use Data::Dumper;
 
 has 'dbh' => (
@@ -15,12 +15,14 @@ has 'dbh' => (
 sub _dbi_connect {
     my $self = shift;
 
-    my $conf = Utils::read_conf();
+    my $conf = Utils::Util::read_conf();
     my $database_conf = $conf->{database};
-    warn Dumper($database_conf);
-    my $dbh = DBI->connect("DBI:mysql:database=".$database_conf->{host}, $database_conf->{user}, $database_conf->{pass});
+
+    my $dbh = DBI->connect("DBI:mysql:database=PerlTraining:host=".$database_conf->{host}, $database_conf->{user}, $database_conf->{pass});
 
     return $dbh;
 }
+
+
 
 1;

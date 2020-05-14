@@ -14,10 +14,12 @@ RUN apt-get install -y cpanminus
 RUN apt-get install --yes \
  libdbd-mysql \
  libdbd-mysql-perl \
- libdbd-pgsql
+ libdbd-pgsql \
+ libmysqlclient-dev
 
 RUN apt-get clean
 RUN [ "rm", "-rf", "/tmp/*", "/var/tmp/*" ]
 
 
-RUN cpanm DBI Moose JSON
+RUN cpanm DBI Moose JSON DBD::mysql
+WORKDIR perl_training

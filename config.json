@@ -1,0 +1,7 @@
+{
+    "database": {
+        "host": "172.10.0.30",
+        "user": "root",
+        "pass": "secret"
+    }
+}
