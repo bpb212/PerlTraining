@@ -22,4 +22,6 @@ RUN [ "rm", "-rf", "/tmp/*", "/var/tmp/*" ]
 
 
 RUN cpanm DBI Moose JSON DBD::mysql
+RUN cpanm Test::Simple Test::MockObject
+
 WORKDIR perl_training

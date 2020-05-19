@@ -1,0 +1,16 @@
+package Entity::Team;
+
+use Moose;
+
+has 'id' => (
+    is => 'ro',
+    isa => 'Int',
+    required => 1
+);
+
+has 'name' => (
+    is => 'rw',
+    isa => 'Str'
+);
+
+1;
