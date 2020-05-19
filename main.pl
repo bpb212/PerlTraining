@@ -21,4 +21,5 @@ use Repo::DriverRepo;
 # my $team = Entity::Team->new( id => 3, name => 'team1');
 # warn Dumper($team);
 my $repo = Repo::DriverRepo->new();
-$repo->orderDivers( $repo->getDrivers() );
+my $drivers = $repo->orderDivers( $repo->getDrivers() );
+$repo->saveToFile($drivers);

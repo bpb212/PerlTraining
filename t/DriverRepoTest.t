@@ -25,7 +25,9 @@ my $repo = Repo::DriverRepo->new();
     ok($sortedDrivers[2]->name() eq $driver2->name(), "third driver is driver1");
 
     $sortedDriversRef = $repo->orderDivers([]);
+
     is(scalar @$sortedDriversRef, 0, "no driver returned");
 
 }
+
 done_testing();
