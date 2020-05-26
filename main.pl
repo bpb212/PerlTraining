@@ -22,4 +22,9 @@ use Repo::DriverRepo;
 # warn Dumper($team);
 my $repo = Repo::DriverRepo->new();
 my $drivers = $repo->orderDivers( $repo->getDrivers() );
+#warn "\n".Dumper($drivers);
+my $points = $repo->getPointsByTeam($drivers);
+my $teams = $repo->orderTeams($repo->getTeams($points));
+warn "\n".Dumper($teams);
+
 $repo->saveToFile($drivers);
