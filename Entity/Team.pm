@@ -13,4 +13,9 @@ has 'name' => (
     isa => 'Str'
 );
 
+has 'points' => (
+    is => 'rw',
+    isa => 'Int'
+);
+
 1;

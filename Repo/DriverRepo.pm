@@ -58,6 +58,53 @@ sub orderDivers {
     return \@sortedDrivers;
 }
 
+sub getPointsByTeam{
+    my ($self, $drivers) = @_;
+
+    my @points;
+    foreach my $driver (@$drivers){
+        $points[$driver->teamID()] += $driver->points();
+    }
+
+    return \@points;
+}
+
+sub getTeams{
+    my ($self, $pointsRef) = @_;
+
+    my $sql = "select * from team";
+
+    my $dbh = $self->dbh();
+    $dbh->{RaiseError} = 1;
+
+    my $sth = $dbh->prepare($sql);
+    $sth->execute();
+
+    my @points = @$pointsRef;
+    my @teams;
+    while ( my $team = $sth->fetchrow_hashref()){
+        push @teams, new Entity::Team(
+                id => $team->{id},
+                name => $team->{name},
+                points => $points[$team->{id}]);
+    }
+
+    #my @sortedTeams = sort { $b->points() <=> $a->points() } @teams;
+    #return \@sortedTeams;
+
+    return \@teams;
+
+}
+
+sub orderTeams{
+    my ($self, $teams) = @_;
+
+    my @sortedTeams = sort { $b->points() <=> $a->points() } @$teams;
+
+    return \@sortedTeams;
+
+}
+
 sub saveToFile {
     my ($self, $drivers) = @_;
 
