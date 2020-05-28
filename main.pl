@@ -9,17 +9,18 @@ use Entity::Driver;
 use Entity::Team;
 use Repo::DriverRepo;
 
-# my $driver = Entity::Driver->new(
-#                 id => 2,
-#                 teamID => 3,
-#                 name => 'Alonso', age => 23, points => 100);
+my $driver = Entity::Driver->new(
+                id => 2,
+                teamID => 3,
+                name => 'Alonso', age => 23, points => 100);
 # warn $driver->name();
 # warn Dumper($driver->points());
 # warn Dumper($driver->age());
 # warn Dumper($driver);
-#
-# my $team = Entity::Team->new( id => 3, name => 'team1');
-# warn Dumper($team);
-my $repo = Repo::DriverRepo->new();
-my $drivers = $repo->orderDivers( $repo->getDrivers() );
-$repo->saveToFile($drivers);
+
+
+my $repo = new Repo::DriverRepo();
+my $teamsArr = $repo->getTeams();
+my $drivers = $self->getDrivers();
+
+warn Dumper($repo->getOrderedTeams($teamsArr, $drivers));
