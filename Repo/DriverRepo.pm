@@ -103,4 +103,46 @@ sub saveToFile {
     }
     close $fh;
 }
+
+sub getTeams {
+    my $self = shift;
+    my $sql = "select * from team";
+
+    my $dbh = $self->dbh();
+    $dbh->{RaiseError} = 1;
+
+    my $sth = $dbh->prepare($sql);
+    $sth->execute();
+
+    my @teams;
+    while( my $dbteam = $sth->fetchrow_hashref()){
+        my $team = new Entity::Team( id => $dbteam->{id}, name => $dbteam->{name});
+        push @teams, $team;
+    }
+
+    return \@teams;
+}
+
+sub getOrderedTeams{
+    my ($self, $teamsArr, $drivers) = @_;
+
+
+    my $teams = {};
+
+    foreach my $driver (@$drivers){
+        if ( $teams->{$driver->teamID()}){
+            $teams->{$driver->teamID()} += $driver->points();
+        }
+        else {
+            $teams->{$driver->teamID()} = $driver->points();
+        }
+    }
+
+    foreach my $team (@$teamsArr){
+        $team->points( $teams->{$team->id()} );
+    }
+
+    my @sorted = sort { $b->points() <=> $a->points() } @$teamsArr;
+    return \@sorted;
+}
 1;

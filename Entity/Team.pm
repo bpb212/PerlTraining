@@ -15,7 +15,7 @@ has 'name' => (
 
 has 'points' => (
     is => 'rw',
-    isa => 'Str'
+    isa => 'Int'
 );
 
 1;
