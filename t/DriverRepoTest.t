@@ -22,41 +22,31 @@ my $repo = Repo::DriverRepo->new();
 
     ok($sortedDrivers[0]->name() eq $driver3->name(), "first driver is driver3" );
     ok($sortedDrivers[1]->name() eq $driver1->name(), "second driver is driver1");
-    ok($sortedDrivers[2]->name() eq $driver2->name(), "third driver is driver1");
+    ok($sortedDrivers[2]->name() eq $driver2->name(), "third driver is driver2");
 
     $sortedDriversRef = $repo->orderDivers([]);
 
     is(scalar @$sortedDriversRef, 0, "no driver returned");
 }
 
-{
-=head getOrderedTeams
-    parameters -> arrayref of Entity::Team
-    returns arrayref of ordered Entity::Team
-=cut
+{ # test orderTeams
     my @teams;
-    my $team1 = new Entity::Team( id => 1, name => "team1" );
-    my $team2 = new Entity::Team( id => 2, name => "team2" );
+    my $team1 = new Entity::Team(id => 1, name => 'third', points => 100);
+    my $team2 = new Entity::Team(id => 2, name => 'first', points => 200);
+    my $team3 = new Entity::Team(id => 3, name => 'second', points => 150);
 
-    my @drivers;
-    my $driver1 = new Entity::Driver(points => 10, name => 'second', teamID => 1);
-    my $driver2 = new Entity::Driver(points => 15, name => 'third', teamID => 1);
-    my $driver3 = new Entity::Driver(points => 5, name => 'first', teamID => 2);
+    push @teams, $team1, $team2, $team3;
 
-    push @drivers, $driver1, $driver2, $driver3;
-    push @teams, $team1, $team2;
+    my $sortedTeamsRef = $repo->orderTeams(\@teams);
+    my @sortedTeams = @$sortedTeamsRef;
 
-    my $result = $repo->getOrderedTeams(\@teams, \@drivers);
+    ok($sortedTeams[0]->name() eq $team2->name(), "first team is team2");
+    ok($sortedTeams[1]->name() eq $team3->name(), "second team is team3");
+    ok($sortedTeams[2]->name() eq $team1->name(), "third team is team1");
 
-    ok($result->[0]->name() eq $team1->name(), "team 1 is the first");
-    is($result->[-1]->name(), $team2->name(), "team 2 is the last");
+    $sortedTeamsRef = $repo->orderTeams([]);
 
-    my $t1Points = $driver1->points() + $driver2->points();
-    is($result->[0]->points(), $t1Points , "team 1 has $t1Points points");
-    is($result->[1]->points(), $driver3->points() , "team 2 has ".$driver3->points()." points");
-
-    is_deeply($result, \@teams, "result is deeply");
-
+    is(scalar @$sortedTeamsRef, 0, "no team returned");
 }
 
 done_testing();

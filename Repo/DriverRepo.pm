@@ -50,12 +50,44 @@ sub getDrivers {
     return \@drivers;
 }
 
+sub getTeams {
+    my $self = shift;
+
+    my $sql = "select team.id, team.name, sum(driver.points) as points from team inner join driver on team.id = driver.teamID group by driver.teamID";
+
+    my $dbh = $self->dbh();
+    $dbh->{RaiseError} = 1;
+
+    my $sth = $dbh->prepare($sql);
+    $sth->execute();
+
+    my @teams;
+    while ( my $team = $sth->fetchrow_hashref()) {
+        push @teams, new Entity::Team(
+                id => $team->{id},
+                name => $team->{name},
+                points => $team->{points}
+        )
+    }
+
+    return \@teams;
+}
+
+
 sub orderDivers {
     my ($self, $drivers) = @_;
 
     my @sortedDrivers = sort { $a->points() <=> $b->points() } @$drivers;
 
     return \@sortedDrivers;
+}
+
+sub orderTeams {
+    my ($self, $teams) = @_;
+
+    my @sortedTeams = sort {$b->points() <=> $a->points() } @$teams;
+
+    return \@sortedTeams;
 }
 
 sub saveToFile {

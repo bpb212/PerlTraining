@@ -17,10 +17,10 @@ my $driver = Entity::Driver->new(
 # warn Dumper($driver->points());
 # warn Dumper($driver->age());
 # warn Dumper($driver);
-
-
-my $repo = new Repo::DriverRepo();
-my $teamsArr = $repo->getTeams();
-my $drivers = $self->getDrivers();
-
-warn Dumper($repo->getOrderedTeams($teamsArr, $drivers));
+#
+# my $team = Entity::Team->new( id => 3, name => 'team1');
+# warn Dumper($team);
+my $repo = Repo::DriverRepo->new();
+# my $drivers = $repo->orderDivers( $repo->getDrivers() );
+# $repo->saveToFile($drivers);
+warn Dumper($repo->orderTeams($repo->getTeams()));
