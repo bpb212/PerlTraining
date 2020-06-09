@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 use Mojolicious::Lite;
-app->plugin('TemplateToolkit');
+
 
 get '/' => sub($c) {
     my $c = shift;
