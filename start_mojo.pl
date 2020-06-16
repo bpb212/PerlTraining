@@ -5,6 +5,12 @@ use Mojolicious::Lite;
 use Repo::DriverRepo;
 use Data::Dumper;
 
+use Repo::UserRepo;
+use LWP::UserAgent;
+use HTTP::Request;
+use Entity::User;
+
+
 get '/' => sub {
     my $c = shift;
 
@@ -60,9 +66,28 @@ get '/letters' => sub{
     $c->render(template => 'letters', letters => \%letters);
 };
 
+get '/api/tryone' => sub {
+    my $c = shift;
+
+    my $userRepo = Repo::UserRepo->new();
+
+    $userRepo->fetchAPI();
+    warn Dumper($userRepo);
+
+
+    $c->render(template => 'api', users => $userRepo->users());
+};
+
 app->start;
 
 __DATA__
+
+@@ api.html.ep
+<h2> API </h2>
+JSON : <BR>
+% for my $user (@$users) {
+    <%= $user->name() %>| <%= $user->username() %> | <%= $user->id() %> | <%= $user->email() %> <BR>
+% }
 
 @@ tables.html.ep
 the drivers are :
@@ -85,8 +110,12 @@ and the teams are :
 function myFunction() {
   location.replace("http://localhost:3000/letters");
 }
+function changeToAPI() {
+  location.replace("http://localhost:3000/api/tryone");
+}
 </script>
-<button onclick="myFunction()">Letters</button>
+<button onclick="myFunction()"> Letters </button>
+<button onclick="changeToAPI()"> API </button>
 
 
 @@ letters.html.ep

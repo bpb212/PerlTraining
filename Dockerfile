@@ -25,5 +25,6 @@ RUN cpanm DBI Moose JSON DBD::mysql
 RUN cpanm Test::Simple Test::MockObject
 
 RUN cpanm Mojolicious::Lite
+RUN cpanm LWP::UserAgent HTTP::Request
 
 WORKDIR perl_training
